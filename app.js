@@ -6,6 +6,7 @@ const stuffRouter = require('./routes/stuff.route');
 const fileRouter = require('./routes/file.route');
 const actorRouter = require('./routes/actor.route');
 const newsRouter = require('./routes/news.route');
+const cinemaRouter = require('./routes/cinema.route');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
@@ -40,6 +41,7 @@ app.use(stuffRouter);
 app.use(fileRouter);
 app.use(actorRouter);
 app.use(newsRouter);
+app.use(cinemaRouter);
 app.listen(
     3000,
     () => console.log('Server is running on http://localhost:3000')
