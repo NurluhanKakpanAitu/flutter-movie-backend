@@ -16,11 +16,12 @@ const getAllMembers = async () => {
     }));
 }
 
-const createStuffMember = async (name,activity,image) =>{
+const createStuffMember = async (name,activity,image, biography) =>{
     const newStuff = {
         name: name,
         activity: activity,
-        image: image
+        image: image,
+        biography: biography
     }
     const ref = await stuffTable.add(newStuff);
     return ref.id;

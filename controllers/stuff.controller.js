@@ -21,8 +21,8 @@ const getAllMembers = async (req, res) => {
 
 const createStuffMember = async (req, res) => {
     try {
-        const { name, activity, image } = req.body;
-        const stuffId = await stuffService.createStuffMember(name, activity, image);
+        const {name, activity, image, biography } = req.body;
+        const stuffId = await stuffService.createStuffMember(name, activity, image,biography);
         res.send(Response.success(stuffId));
     } catch (error) {
         res.send(Response.error(error.message));
