@@ -1,15 +1,18 @@
 const eventService = require('../services/event.service');
 
 const Response = require('../utils/response');
+const logger = require('../logger/logger.config');
 
 
 const createEvent = async (req, res) => {
     const {userId,cinemaId,place,dateTime} = req.body;
     try {
         const eventId = await eventService.createEvent(userId,cinemaId,place,dateTime);
-        Response.success(res, eventId);
+        logger.info(`Event created with id ${eventId}`);
+        res.send(Response.success(eventId));
     } catch (error) {
-        Response.error(res, error);
+        logger.error(`Error creating event: ${error}`);
+        res.send(Response.error(error));
     }
 }
 
