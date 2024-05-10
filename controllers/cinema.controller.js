@@ -34,8 +34,20 @@ const getAllCinemas = async (req, res) => {
     }
 }
 
+const updatePlace = async (req, res) => {
+    try{
+        const {id,place} = req.body;
+        await cinemaService.updatePlace(id,place);
+        res.send(Response.success(null));
+    }
+    catch (error){
+        res.send(Response.error(error.message));
+    }
+}
+
 module.exports = {
     createCinema,
     getCinema,
-    getAllCinemas
+    getAllCinemas,
+    updatePlace
 }

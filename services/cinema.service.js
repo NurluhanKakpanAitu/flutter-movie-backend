@@ -52,10 +52,36 @@ const placeOrder = async (id,places) => {
     });
 }
 
+const updatePlace = async (id,place) => {
+    const cinemaRef = cinemaCollection.doc(id);
+
+// Получаем текущие данные кинотеатра
+    const cinemaDoc = await cinemaRef.get();
+    const places = cinemaDoc.data().places;
+
+// Находим место с нужным номером и обновляем его данные
+    const updatedPlaces = places.map((item) => {
+        if (item.number === place.number) {
+            return {
+                ...item,
+                isOrdered: place.isOrdered,
+                email: place.email
+            };
+        }
+        return item;
+    });
+
+// Обновляем документ в Firestore с новым массивом мест
+    await cinemaRef.update({
+        places: updatedPlaces
+    });
+}
+
 module.exports = {
     createCinema,
     getCinema,
     getAllCinemas,
     addFeedback,
-    placeOrder
+    placeOrder,
+    updatePlace
 }

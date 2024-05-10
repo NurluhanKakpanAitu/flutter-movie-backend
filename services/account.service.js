@@ -31,11 +31,12 @@ const register = async (email, password) => {
 
 const getUserByToken = async (token) =>{
     const decodedToken = jwt.decode(token);
+    logger.info('Decoded token', { decodedToken });
     const user = await auth.getUser(decodedToken.uid);
     logger.info('User found', { email: user.email });
     return {
         email: user.email,
-        uid: user.uid,
+        id: user.uid,
         role: user.customClaims.role,
         password: user.customClaims.password
     };
