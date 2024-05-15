@@ -6,7 +6,11 @@ const getAllNews = async () => {
     const snapshot = await newsTable.get();
     const news = [];
     snapshot.forEach(doc => {
-        news.push(doc.data());
+        news.push({
+            id: doc.id,
+            ...doc.data()
+        
+        });
     });
     return news;
 }
