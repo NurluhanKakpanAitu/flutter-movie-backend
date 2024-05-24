@@ -1,52 +1,39 @@
-const News = require('../models/news');
+const {db}  = require('../config')
+
+const newsTable = db.collection('news');
 
 const getAllNews = async () => {
-    return await News.findAll();
+    const snapshot = await newsTable.get();
+    const news = [];
+    snapshot.forEach(doc => {
+        news.push({
+            id: doc.id,
+            ...doc.data()
+        
+        });
+    });
+    return news;
 }
 
 const getNewsById = async (id) => {
-    return await News.findByPk(id);
+    const snapshot = await newsTable.doc(id).get();
+    return snapshot.data();
+}
+const createNews = async (title, content, author, date, image) => {
+    const news = {title, content, author, date, image};
+    const result = await newsTable.add(news);
+    return result.id;
 }
 
-
-const createNews = async (title,content,author,date,image) => {
-    return await News.create({
-        title,
-        content,
-        author,
-        date,
-        image
-    });
+const updateNews = async (id, title, content, author, date, image) => {
+    const news = {title, content, author, date, image};
+    await newsTable.doc(id).set(news);
 }
-
-
-const updateNews = async (id,title,content,author,date,image) => {
-    return await News.update({
-        title,
-        content,
-        author,
-        date,
-        image
-    },{
-        where: {
-            id
-        }
-    });
-}
-
 
 const deleteNews = async (id) => {
-    return await News.destroy({
-        where: {
-            id
-        }
-    });
+    await newsTable.doc(id).delete();
 }
 
-module.exports = {
-    getAllNews,
-    getNewsById,
-    createNews,
-    updateNews,
-    deleteNews
-}
+
+module.exports = { getAllNews, getNewsById, createNews, updateNews, deleteNews };
+
